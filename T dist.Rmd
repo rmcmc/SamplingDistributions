@@ -1,0 +1,52 @@
+---
+title: "Sampling Distributions"
+author: "Ross McCullough"
+date: "13/10/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r cars}
+mu_delta <- function(a, b){
+  
+  sample_a <- rnorm(a)
+  sample_b <- rnorm(b)
+  
+  delta = mean(sample_a) - mean(sample_b)
+  
+  var_a <- var(sample_a)^2
+  var_b <- var(sample_b)^2
+  
+  
+  
+  
+  return(delta/sqrt((var_a/a) + (var_b/b)))
+  
+}
+
+df <- tibble(samples = replicate(10000,mu_delta(5,5)))
+
+ggplot(data=df, aes(x=samples)) +
+  geom_density()+
+  stat_function(fun = dt, args = list(df = 5))
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
